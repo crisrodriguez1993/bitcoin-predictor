@@ -1,0 +1,64 @@
+architecture:
+  sources:
+    - name: Binance
+      type: API
+      description: Bitcoin OHLCV data (1h, 4h, 1d intervals)
+    - name: Yahoo Finance
+      type: API
+      description: Historical price data backup
+    - name: Kaggle Financial News
+      type: Dataset
+      description: Financial news headlines with publication timestamps
+    - name: NASDAQ Data Link
+      type: API
+      optional: true
+      description: Macroeconomic indicators and complementary series
+
+  pipeline:
+    - name: Data Ingestion
+      actions:
+        - Collect price and news data from APIs and datasets
+        - Store raw data in the Data Lake (bronze layer)
+        - Validate API connections and schema integrity
+      outputs: /data/bronze/
+
+    - name: Data Cleaning and Normalization
+      actions:
+        - Remove nulls and duplicated entries
+        - Standardize timestamps to UTC
+        - Harmonize price and news formats
+      outputs: /data/silver/
+
+    - name: NLP Sentiment Analysis
+      model: FinBERT
+      alternative_models: [XLM-R, BETO]
+      windows: [6h, 12h, 24h]
+      weighting: Exponential decay
+      description: Compute sentiment scores and aggregate by time window
+      outputs: /data/silver/news_sentiment/
+
+    - name: Feature Engineering
+      actions:
+        - Compute technical indicators (RSI, MACD, Volatility, Momentum)
+        - Merge sentiment and technical features by timestamp
+      outputs: /data/gold/features_btc_24h.csv
+
+    - name: Predictive Modeling
+      models: [LSTM, GRU, TFT]
+      targets:
+        - y_cls: Directional movement (up/down)
+        - y_reg: Percentage change (Δ%)
+      validation_strategy: Walk-forward cross-validation
+      outputs: /models/LSTM_btc_24h_v1.pkl
+
+    - name: Evaluation and Backtesting
+      metrics: [AUC, F1, Sharpe, MaxDrawdown]
+      reports: /reports/backtest_v1.html
+      description: Evaluate model performance and simulate trading strategy
+
+    - name: Visualization and Serving
+      tools: [Streamlit, FastAPI]
+      monitoring:
+        retraining_frequency_days: 7
+        drift_detection: Enabled
+      description: Provide dashboard visualization and REST API for inference
