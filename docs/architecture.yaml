@@ -9,7 +9,7 @@ architecture:
     - name: Kaggle Financial News
       type: Dataset
       description: Financial news headlines with publication timestamps
-    - name: NASDAQ Data Link
+    - name: Reddits
       type: API
       optional: true
       description: Macroeconomic indicators and complementary series
