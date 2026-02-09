@@ -2,8 +2,6 @@
 
 **Master's Thesis – Artificial Intelligence Program**  
 **Universidad San Francisco de Quito (USFQ)**  
-**Author:** Cri## Contact Information
-
 **Author**: Cristian Rodríguez  
 **Institution**: Universidad San Francisco de Quito (USFQ)  
 **Program**: Master's in Artificial Intelligence  
