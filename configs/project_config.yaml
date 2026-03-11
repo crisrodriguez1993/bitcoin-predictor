@@ -1,0 +1,30 @@
+project:
+  name: bitcoin-intelligence-lab
+  timezone: UTC
+  base_currency: BTCUSDT
+
+data:
+  frequency:
+    - 1h
+    - 4h
+    - 1d
+  horizon_hours: 24
+
+sentiment:
+  classes:
+    muy_negativo: -2
+    negativo: -1
+    neutro: 0
+    positivo: 1
+    muy_positivo: 2
+  aggregation_windows:
+    - 1h
+    - 4h
+    - 1d
+
+modeling:
+  lstm:
+    lookback_window: 72
+    batch_size: 64
+    epochs: 50
+    learning_rate: 0.001

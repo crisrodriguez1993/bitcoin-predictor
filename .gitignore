@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data artifacts
+*.parquet
+*.feather
+*.h5
+*.pkl
+*.joblib
+
+# Ignore heavy data by default (keep folder structure)
+data/bronze/**
+data/silver/**
+data/gold/**
+!data/bronze/.gitkeep
+!data/silver/.gitkeep
+!data/gold/.gitkeep
+
+# Models and reports outputs
+models/**
+!models/.gitkeep
+reports/figures/**
+!reports/figures/.gitkeep
+
+# Environment and secrets
+.env
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
